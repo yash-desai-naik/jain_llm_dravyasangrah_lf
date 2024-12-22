@@ -1,0 +1,3 @@
+# https://docs.langflow.org/get-started-installation#datastax-langflow
+langflow
+python-dotenv
