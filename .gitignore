@@ -1,5 +1,6 @@
 /.env
 .DS_Store
 __pycache__
-*.json
 *.token
+# Token/credentials files (keep locally, don't commit)
+yash.desai.naik@gmail.com-token.json
