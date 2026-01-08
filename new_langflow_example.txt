@@ -1,0 +1,35 @@
+import requests
+import os
+import uuid
+
+
+# The complete API endpoint URL for this flow
+url = "https://aws-us-east-2.langflow.datastax.com/lf/908641fd-b0ff-4754-9fce-230aea3ff378/api/v1/run/f098008e-9caa-4326-ac51-a4419a151537"
+
+# Request payload configuration
+payload = {
+    "output_type": "chat",
+    "input_type": "chat",
+    "input_value": "मित ान िकसे कहते ह?"
+}
+payload["session_id"] = str(uuid.uuid4())
+
+headers = {
+    "X-DataStax-Current-Org": "091af4c2-853c-4830-bf76-65583f31923a", 
+    "Authorization": "Bearer <YOUR_APPLICATION_TOKEN>",
+    "Content-Type": "application/json", 
+    "Accept": "application/json",
+}
+
+try:
+    # Send API request
+    response = requests.request("POST", url, json=payload, headers=headers)
+    response.raise_for_status()  # Raise exception for bad status codes
+
+    # Print response
+    print(response.text)
+
+except requests.exceptions.RequestException as e:
+    print(f"Error making API request: {e}")
+except ValueError as e:
+    print(f"Error parsing response: {e}")

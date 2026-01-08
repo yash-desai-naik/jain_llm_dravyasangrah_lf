@@ -1,7 +1,7 @@
 import streamlit as st
 import time
 
-from utils.config import PAGE_CONFIG, DEFAULT_TWEAKS, FLOW_ID
+from utils.config import PAGE_CONFIG, DEFAULT_TWEAKS, ENDPOINT_ID
 from utils.styles import CUSTOM_CSS
 from utils.api import run_flow, parse_error_message
 
@@ -38,7 +38,7 @@ def handle_user_input(prompt: str):
             start_time = time.time()
             response = run_flow(
                 message=prompt,
-                endpoint=FLOW_ID,
+                endpoint=ENDPOINT_ID,
                 tweaks=st.session_state.tweaks
             )
             end_time = time.time()

@@ -1,7 +1,8 @@
 import json
 import requests
+import uuid
 from typing import Optional
-from .config import BASE_API_URL, LANGFLOW_ID, APPLICATION_TOKEN
+from .config import BASE_API_URL, FLOW_ID, ENDPOINT_ID, API_HEADERS
 
 def parse_error_message(error_response):
     """Parse error response and return a user-friendly message."""
@@ -40,23 +41,24 @@ def parse_error_message(error_response):
 
 def run_flow(
     message: str,
-    endpoint: str,
+    endpoint: str = ENDPOINT_ID,
     output_type: str = "chat",
     input_type: str = "chat",
-    tweaks: Optional[dict] = None
+    tweaks: Optional[dict] = None,
+    session_id: Optional[str] = None
 ) -> dict:
-    """Run a flow with a given message and optional tweaks."""
-    api_url = f"{BASE_API_URL}/lf/{LANGFLOW_ID}/api/v1/run/{endpoint}"
+    """Run a flow with a given message using the new Langflow API structure."""
+    api_url = f"{BASE_API_URL}/lf/{FLOW_ID}/api/v1/run/{endpoint}"
     
     payload = {
         "input_value": message,
         "output_type": output_type,
         "input_type": input_type,
+        "session_id": session_id or str(uuid.uuid4())
     }
-    headers = {"Authorization": f"Bearer {APPLICATION_TOKEN}", "Content-Type": "application/json"}
     
     if tweaks:
         payload["tweaks"] = tweaks
     
-    response = requests.post(api_url, json=payload, headers=headers)
+    response = requests.post(api_url, json=payload, headers=API_HEADERS)
     return response.json()
